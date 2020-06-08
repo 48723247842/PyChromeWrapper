@@ -28,7 +28,7 @@ class ChromeWrapper:
 
 	def open_in_kiosk_mode( self , url ):
 		self.stop()
-		command = [ "/usr/bin/google-chrome-stable" , "--password-store=basic" , "--enable-extensions" , f"--app={url}" ]
+		command = [ "/usr/bin/google-chrome-stable" , "--password-store=basic" , "--enable-extensions" , "--enable-extension-apps" , f"--app={url}" ]
 		print( command )
 		self.exec( command )
 		self.xdotool = None
