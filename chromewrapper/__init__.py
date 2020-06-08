@@ -6,6 +6,8 @@ class ChromeWrapper:
 
 	def __init__( self , options={} ):
 		self.options = options
+		if "window_name" not in self.options:
+			self.options["window_name"] = "Chrome"
 
 	def exec( self , bash_command ):
 		p = Popen(
@@ -19,20 +21,19 @@ class ChromeWrapper:
 		return getoutput( bash_command )
 
 	def stop( self ):
-		return self.exec2( "sudo pkill -9 chrome" )
+		return self.exec2( "pkill -9 chrome" )
 
 	def open( self , url ):
 		pass
 
 	def open_in_kiosk_mode( self , url ):
 		self.stop()
-		#command = f"/usr/bin/google-chrome-stable --password-store=basic --enable-extensions --app={ url } &"
 		command = [ "/usr/bin/google-chrome-stable" , "--password-store=basic" , "--enable-extensions" , f"--app={url}" ]
 		print( command )
 		self.exec( command )
 		self.xdotool = None
 		self.xdotool = XDoToolWrapper()
-		self.xdotool.attach_via_name( "Disney+ | Video Player" )
+		self.xdotool.attach_via_name( self.options["window_name"] )
 
 	def fullscreen( self ):
 		self.xdotool.maximize_window()
